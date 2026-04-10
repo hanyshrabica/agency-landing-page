@@ -50,6 +50,7 @@
       line-height: 1.7;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      cursor: none;
     }
 
     /* ─── Noise overlay ──────────────────────────────────────── */
@@ -64,60 +65,41 @@
     }
 
     /* ─── Cursor Glow Follower ───────────────────────────────── */
-    #cursor-glow {
-      position: fixed;
-      width: 48px; height: 48px;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 10000;
-      /* Centered on the real cursor */
-      transform: translate(-50%, -50%);
-      /* Soft red aura */
-      background: radial-gradient(circle,
-        rgba(230, 48, 48, 0.18) 0%,
-        rgba(230, 48, 48, 0.06) 55%,
-        transparent 100%);
-      filter: blur(4px);
-      opacity: 0;
-      transition: opacity 0.3s ease,
-                  width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-                  height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-                  background 0.3s ease;
-      will-change: transform;
-    }
-    #cursor-glow.visible { opacity: 1; }
-    #cursor-glow.hovering {
-      width: 80px; height: 80px;
-      background: radial-gradient(circle,
-        rgba(230, 48, 48, 0.22) 0%,
-        rgba(230, 48, 48, 0.08) 55%,
-        transparent 100%);
-      filter: blur(6px);
-    }
+    /* ─── Cursor ring ────────────────────────────────────────── */
+    * { cursor: none !important; }
 
-    /* Subtle ring — always visible, tight to cursor */
     #cursor-ring {
       position: fixed;
-      width: 20px; height: 20px;
-      border: 1px solid rgba(230, 48, 48, 0.5);
+      width: 26px; height: 26px;
+      border: 1.5px solid rgba(230, 48, 48, 0.75);
       border-radius: 50%;
       pointer-events: none;
       z-index: 10001;
       transform: translate(-50%, -50%);
       opacity: 0;
-      transition: opacity 0.3s ease,
-                  width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                  height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                  border-color 0.25s ease,
-                  background 0.25s ease;
-      will-change: transform;
+      transition: opacity 0.25s ease,
+                  width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                  height 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                  border-color 0.2s ease,
+                  background 0.2s ease;
+      will-change: left, top;
+    }
+    #cursor-ring::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
     }
     #cursor-ring.visible { opacity: 1; }
     #cursor-ring.hovering {
-      width: 36px; height: 36px;
-      border-color: rgba(230, 48, 48, 0.7);
-      background: rgba(230, 48, 48, 0.05);
+      width: 44px; height: 44px;
+      border-color: rgba(230, 48, 48, 0.9);
+      background: rgba(230, 48, 48, 0.06);
     }
+    #cursor-ring.hovering::after { opacity: 0; }
 
     /* ─── Navigation ─────────────────────────────────────────── */
     nav {
@@ -1065,6 +1047,224 @@
     }
     .thumb-item:hover img { transform: scale(1.03); }
 
+    /* ─── Pricing ───────────────────────────────────────────── */
+    .pricing-section { background: var(--bg-secondary); }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .price-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius);
+      padding: 36px 28px 32px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, background 0.3s;
+    }
+    .price-card:hover {
+      border-color: rgba(230,48,48,0.22);
+      transform: translateY(-4px);
+      background: var(--bg-card-hover);
+    }
+    .price-card.featured {
+      border-color: rgba(230,48,48,0.45);
+      background: var(--bg-card-hover);
+    }
+    .price-card.featured:hover { border-color: rgba(230,48,48,0.7); }
+
+    .price-badge {
+      position: absolute;
+      top: 16px; right: 16px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--accent);
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .price-tier {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .price-name {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .price-tagline {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .price-amount {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .price-num {
+      font-family: var(--font-heading);
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    .price-free .price-num { color: var(--accent); }
+    .price-currency {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    .price-per {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-left: 2px;
+    }
+
+    .price-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      margin-bottom: 28px;
+    }
+    .price-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .price-features li::before {
+      content: '✓';
+      color: var(--accent);
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .price-features li.muted { color: var(--text-muted); }
+    .price-features li.muted::before { color: var(--text-muted); content: '–'; }
+
+    .price-btn {
+      display: block;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      transition: background 0.2s, box-shadow 0.25s, color 0.2s;
+      border: 1px solid var(--border-card);
+      color: var(--text-secondary);
+      background: transparent;
+    }
+    .price-btn:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+    .price-btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .price-btn.primary:hover {
+      background: var(--accent-bright);
+      box-shadow: 0 0 28px rgba(230,48,48,0.4);
+    }
+
+    /* Custom — full width banner */
+    .price-custom {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius);
+      padding: 36px 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      transition: border-color 0.3s;
+    }
+    .price-custom:hover { border-color: rgba(230,48,48,0.22); }
+    .price-custom-left { flex: 1; }
+    .price-custom-tier {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .price-custom-name {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .price-custom-desc {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+    .price-custom-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .price-custom-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-card);
+      padding: 4px 12px;
+      border-radius: 100px;
+    }
+    .price-custom-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .price-custom-amount {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-secondary);
+      letter-spacing: -0.01em;
+    }
+
     /* ─── Scroll Reveal ──────────────────────────────────────── */
     .reveal {
       opacity: 0;
@@ -1144,13 +1344,15 @@
     @media (max-width: 560px) {
       .process-steps { grid-template-columns: 1fr; }
       .hero-actions { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .pricing-grid { grid-template-columns: 1fr 1fr; }
+      .price-custom { flex-direction: column; align-items: flex-start; }
+      .price-custom-right { align-items: flex-start; }
       .cta-note { gap: 16px; }
     }
   </style>
 </head>
 <body>
 
-  <div id="cursor-glow"></div>
   <div id="cursor-ring"></div>
 
   <!-- ── NAV ─────────────────────────────────────────────────── -->
@@ -1158,8 +1360,8 @@
     <a href="#" class="nav-logo">HRB<span>.</span>Digital</a>
     <ul class="nav-links">
       <li><a href="#sluzby">Služby</a></li>
-      <li><a href="#proces">Proces</a></li>
       <li><a href="#prace">Ukázky</a></li>
+      <li><a href="#cenik">Ceník</a></li>
       <li><a href="#vysledky">Výsledky</a></li>
     </ul>
     <a href="#kontakt" class="btn-nav">Začít spolupráci →</a>
@@ -1184,7 +1386,7 @@
           Data-driven thumbnaily, <strong>titulky a popisy</strong> navržené pro jeden cíl — maximální CTR a skutečné sledování.
         </p>
         <div class="hero-actions hero-anim hero-anim-4">
-          <a href="#kontakt" class="btn-primary">Bezplatná konzultace →</a>
+          <a href="#kontakt" class="btn-primary">Začít spolupráci →</a>
           <a href="#vysledky" class="btn-ghost-link">Zobrazit výsledky <span class="arrow">→</span></a>
         </div>
       </div>
@@ -1467,6 +1669,120 @@
 
   </section>
 
+  <!-- ── PRICING ─────────────────────────────────────────────────── -->
+  <section id="cenik" class="pricing-section" style="padding:0; max-width:none;">
+    <div class="section-inner">
+      <div class="section-label reveal">Ceník</div>
+      <h2 class="section-title reveal reveal-delay-1">
+        Vyberte si<br><em>svůj balíček.</em>
+      </h2>
+
+      <div class="pricing-grid">
+
+        <!-- FREE -->
+        <div class="price-card price-free reveal reveal-delay-1">
+          <div class="price-tier">Starter</div>
+          <div class="price-name">Free Thumbnail</div>
+          <div class="price-tagline">Vyzkoušejte bez rizika.</div>
+          <div class="price-amount">
+            <span class="price-num">Zdarma</span>
+          </div>
+          <ul class="price-features">
+            <li>1 thumbnail náhled</li>
+            <li>Osobní styl kanálu</li>
+            <li class="muted">A/B/C testování</li>
+            <li class="muted">Revize</li>
+            <li class="muted">Prioritní dodání</li>
+          </ul>
+          <a href="#kontakt" class="price-btn">Získat zdarma →</a>
+        </div>
+
+        <!-- LIGHT -->
+        <div class="price-card reveal reveal-delay-2">
+          <div class="price-tier">Light</div>
+          <div class="price-name">Light Package</div>
+          <div class="price-tagline">Pro začínající tvůrce.</div>
+          <div class="price-amount">
+            <span class="price-num">350</span>
+            <span class="price-currency">Kč</span>
+            <span class="price-per">/ thumbnail</span>
+          </div>
+          <ul class="price-features">
+            <li>1 thumbnail náhled</li>
+            <li>A/B/C testování variant</li>
+            <li>Dodání do 48 hodin</li>
+            <li>1 revize</li>
+            <li class="muted">Prioritní komunikace</li>
+          </ul>
+          <a href="#kontakt" class="price-btn">Začít →</a>
+        </div>
+
+        <!-- MEDIUM -->
+        <div class="price-card featured reveal reveal-delay-3">
+          <span class="price-badge">Nejoblíbenější</span>
+          <div class="price-tier">Medium</div>
+          <div class="price-name">Medium Package</div>
+          <div class="price-tagline">Nejlepší poměr cena/výkon.</div>
+          <div class="price-amount">
+            <span class="price-num">950</span>
+            <span class="price-currency">Kč</span>
+            <span class="price-per">/ 3 thumbnaily</span>
+          </div>
+          <ul class="price-features">
+            <li>3 thumbnail náhledy</li>
+            <li>A/B/C testování variant</li>
+            <li>Dodání do 24 hodin</li>
+            <li>3 revize</li>
+            <li class="muted">Prioritní komunikace</li>
+          </ul>
+          <a href="#kontakt" class="price-btn primary">Vybrat Medium →</a>
+        </div>
+
+        <!-- HIGH -->
+        <div class="price-card reveal reveal-delay-4">
+          <div class="price-tier">High</div>
+          <div class="price-name">High Package</div>
+          <div class="price-tagline">Pro seriózní YouTubery.</div>
+          <div class="price-amount">
+            <span class="price-num">1 650</span>
+            <span class="price-currency">Kč</span>
+            <span class="price-per">/ 5 thumbnailů</span>
+          </div>
+          <ul class="price-features">
+            <li>5 thumbnail náhledů</li>
+            <li>A/B/C testování variant</li>
+            <li>Dodání do 24 hodin</li>
+            <li>Neomezené revize</li>
+            <li class="muted">Prioritní komunikace</li>
+          </ul>
+          <a href="#kontakt" class="price-btn">Vybrat High →</a>
+        </div>
+
+      </div>
+
+      <!-- CUSTOM -->
+      <div class="price-custom reveal">
+        <div class="price-custom-left">
+          <div class="price-custom-tier">Custom</div>
+          <div class="price-custom-name">Custom Package</div>
+          <div class="price-custom-desc">Více než 5 thumbnailů, okamžitá komunikace, dodání do 12 hodin. Ideální pro kanály s pravidelným obsahem a velkou frekvencí uploadu.</div>
+          <div class="price-custom-features">
+            <span class="price-custom-tag">5+ thumbnailů</span>
+            <span class="price-custom-tag">A/B/C testování</span>
+            <span class="price-custom-tag">Neomezené revize</span>
+            <span class="price-custom-tag">Dodání do 12 hodin</span>
+            <span class="price-custom-tag">Okamžitá komunikace</span>
+          </div>
+        </div>
+        <div class="price-custom-right">
+          <div class="price-custom-amount">Cena podle domluvy</div>
+          <a href="#kontakt" class="price-btn primary">Domluvit se →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ── CTA ───────────────────────────────────────────────────── -->
   <section id="kontakt" class="cta-section" style="padding:0; max-width:none;">
     <div class="section-inner" style="padding-top:128px; padding-bottom:128px;">
@@ -1476,16 +1792,16 @@
           Váš kanál si zaslouží<br>víc kliků.
         </h2>
         <p class="cta-sub reveal reveal-delay-2">
-          Bezplatná konzultace bez závazků. Analyzujeme váš kanál a ukážeme vám přesně, kde ztrácíte klikání.
+          První thumbnail dostanete zdarma — bez rizika, bez závazků. Přesvědčte se sami.
         </p>
         <div class="reveal reveal-delay-3">
           <a href="mailto:ahoj@hrb.digital" class="btn-primary" style="font-size:0.95rem; padding:15px 36px; display:inline-flex;">
-            Napsat nám →
+            Napsat a začít →
           </a>
         </div>
         <div class="cta-note reveal reveal-delay-4">
-          <div class="cta-note-item">Bezplatná konzultace</div>
-          <div class="cta-note-item">Odpověď do 48 hodin</div>
+          <div class="cta-note-item">1. thumbnail zdarma</div>
+          <div class="cta-note-item">Odpověď do 24 hodin</div>
           <div class="cta-note-item">Bez závazků</div>
         </div>
       </div>
@@ -1497,8 +1813,8 @@
     <a href="#" class="footer-logo">HRB<span>.</span>Digital</a>
     <ul class="footer-links">
       <li><a href="#sluzby">Služby</a></li>
-      <li><a href="#proces">Proces</a></li>
       <li><a href="#prace">Ukázky</a></li>
+      <li><a href="#cenik">Ceník</a></li>
       <li><a href="#vysledky">Výsledky</a></li>
       <li><a href="#kontakt">Kontakt</a></li>
     </ul>
@@ -1507,57 +1823,24 @@
 
   <!-- ── SCRIPTS ───────────────────────────────────────────────── -->
   <script>
-    /* ── Cursor Follower ────────────────────────────────────── */
-    const glow = document.getElementById('cursor-glow');
+    /* ── Cursor Ring ────────────────────────────────────────── */
     const ring = document.getElementById('cursor-ring');
+    let tx = -200, ty = -200, rx = -200, ry = -200;
 
-    // Target position (exact mouse)
-    let tx = -200, ty = -200;
-    // Lerped positions for glow (slow) and ring (faster)
-    let gx = -200, gy = -200;
-    let rx = -200, ry = -200;
+    document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+    document.addEventListener('mouseleave', () => ring.classList.remove('visible'));
+    document.addEventListener('mouseenter', () => ring.classList.add('visible'));
 
-    document.addEventListener('mousemove', e => {
-      tx = e.clientX;
-      ty = e.clientY;
-    });
-
-    // Show/hide on enter/leave
-    document.addEventListener('mouseleave', () => {
-      glow.classList.remove('visible');
-      ring.classList.remove('visible');
-    });
-    document.addEventListener('mouseenter', () => {
-      glow.classList.add('visible');
-      ring.classList.add('visible');
-    });
-
-    // Hover state on interactive elements
     document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        glow.classList.add('hovering');
-        ring.classList.add('hovering');
-      });
-      el.addEventListener('mouseleave', () => {
-        glow.classList.remove('hovering');
-        ring.classList.remove('hovering');
-      });
+      el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
     });
 
-    // Animation loop — two separate lerp speeds
     (function animate() {
-      // Glow: subtle trail (ease factor 0.18)
-      gx += (tx - gx) * 0.18;
-      gy += (ty - gy) * 0.18;
-      glow.style.left = gx + 'px';
-      glow.style.top  = gy + 'px';
-
-      // Ring: nearly instant, tight to cursor (ease factor 0.38)
       rx += (tx - rx) * 0.38;
       ry += (ty - ry) * 0.38;
       ring.style.left = rx + 'px';
       ring.style.top  = ry + 'px';
-
       requestAnimationFrame(animate);
     })();
 
