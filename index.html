@@ -1102,6 +1102,48 @@
       max-width: none;
     }
 
+    /* ─── Recent Work block ─────────────────────────────────── */
+    .recent-work-block {
+      border-top: 1px solid var(--border);
+      padding: 80px 0 0;
+    }
+    .recent-work-header {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 52px 56px;
+    }
+    .recent-work-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      width: 100%;
+    }
+    .recent-thumb {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--bg-surface);
+    }
+    .recent-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  filter 0.5s ease;
+    }
+    .recent-thumb:hover img {
+      transform: scale(1.04);
+      filter: brightness(1.1);
+    }
+    .recent-work-block + .client-block {
+      margin-top: 0;
+    }
+    @media (max-width: 640px) {
+      .recent-work-grid { grid-template-columns: 1fr; }
+      .recent-work-header { padding: 0 24px 40px; }
+    }
+
     .portfolio-top {
       max-width: 1240px;
       margin: 0 auto;
@@ -1842,21 +1884,19 @@
       </h2>
     </div>
 
-    <!-- More work -->
-    <div class="client-block">
-      <div class="client-block-inner">
-        <div class="client-head">
-          <div class="client-index reveal">+ more</div>
-          <div class="client-identity reveal reveal-delay-1">
-            <div class="client-name">More of our work</div>
-            <div class="client-tag">Various channels & niches</div>
-          </div>
-        </div>
+    <!-- ── MY RECENT WORK ── -->
+    <div class="recent-work-block">
+      <div class="recent-work-header reveal">
+        <div class="section-label" style="margin-bottom:12px;">Fresh out of the studio</div>
+        <h2 class="section-title" style="margin-bottom:0;">My Recent <em>Work.</em></h2>
       </div>
-      <div class="client-thumbs cols-3 reveal">
-        <div class="thumb-item"><img src="_J6HQIcnczQ-HD.jpg" alt="More work thumbnail 1" loading="lazy" /></div>
-        <div class="thumb-item"><img src="1of10-thumbnail-ae53e5ce-12b5-4002-613f-354091b60800 (1).jpg" alt="More work thumbnail 2" loading="lazy" /></div>
-        <div class="thumb-item"><img src="Topka vanlife.jpg" alt="More work thumbnail 3" loading="lazy" /></div>
+      <div class="recent-work-grid">
+        <div class="recent-thumb reveal"><img src="New thumbnails/1of10-thumbnail- (1).jpg"                          alt="Recent work 1" loading="lazy" /></div>
+        <div class="recent-thumb reveal reveal-delay-1"><img src="New thumbnails/1of10-thumbnail- (3).jpg"           alt="Recent work 2" loading="lazy" /></div>
+        <div class="recent-thumb reveal"><img src="New thumbnails/1of10-thumbnail-ae53e5ce-12b5-4002-613f-354091b60800.jpg" alt="Recent work 3" loading="lazy" /></div>
+        <div class="recent-thumb reveal reveal-delay-1"><img src="New thumbnails/4k .jpg"                            alt="Recent work 4" loading="lazy" /></div>
+        <div class="recent-thumb reveal"><img src="New thumbnails/Inzerát který prodává.jpg"                        alt="Recent work 5" loading="lazy" /></div>
+        <div class="recent-thumb reveal reveal-delay-1"><img src="New thumbnails/Topka vanlife.jpg"                 alt="Recent work 6" loading="lazy" /></div>
       </div>
     </div>
 
